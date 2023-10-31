@@ -93,6 +93,7 @@ fun CardMemo(
                 )
             ),
         containerColor = Color.White
+
     ) {
         Row(
             modifier = Modifier
