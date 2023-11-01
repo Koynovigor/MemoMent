@@ -12,6 +12,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.leonikl.memoment.database.Page
+import com.leonikl.memoment.screens.LoadingScreen
+import com.leonikl.memoment.screens.MainScreen
+import com.leonikl.memoment.screens.TextScreen
 import com.leonikl.memoment.view.MainViewModel
 import com.leonikl.memoment.view.MainViewModelFactory
 import com.leonikl.memoment.view.MyViewModel
@@ -24,7 +28,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
             val owner = LocalViewModelStoreOwner.current
             owner?.let {
                 viewModel = viewModel(
@@ -36,25 +39,56 @@ class MainActivity : ComponentActivity() {
                     )
                 )
             }
-
-            val allPages by viewModel.allPages.observeAsState(listOf())
-
+            var item = Page()
             val navController = rememberNavController()
             NavHost(
                 navController = navController,
-                startDestination = "MainScreen"
+                startDestination = "load"
             ){
-
+                composable("load"){
+                    LoadingScreen(
+                        navController = navController
+                    )
+                }
                 composable("MainScreen") {
-
+                    MainScreen(
+                        viewModel = viewModel,
+                        model = model,
+                        onClick = { task ->
+                            item = task
+                            navController.navigate("TextScreen")
+                        }
+                    )
                 }
-                composable("AddScreen"){
-
-                }
-                composable("CardScreen"){
-
+                composable("TextScreen"){
+                    TextScreen(
+                        viewModel = viewModel,
+                        task = item,
+                        navController = navController
+                    )
                 }
             }
         }
     }
+
+    override fun onStop() {
+        super.onStop()
+        val a = viewModel.allPages.value
+        for (i in a!!){
+            if (i.delete){
+                viewModel.deletePage(i)
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val a = viewModel.allPages.value
+        for (i in a!!){
+            if (i.delete){
+                viewModel.deletePage(i)
+            }
+        }
+    }
+
 }

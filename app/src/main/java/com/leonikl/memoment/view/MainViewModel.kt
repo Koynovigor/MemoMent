@@ -1,6 +1,7 @@
 package com.leonikl.memoment.view
 
 import android.app.Application
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

@@ -62,6 +62,9 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     implementation("androidx.navigation:navigation-compose:2.7.4")
 
+    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
+    implementation("com.github.SimformSolutionsPvtLtd:SSJetPackComposeProgressButton:1.0.6")
+
     implementation("androidx.compose.material:material:1.5.4")
 
     implementation("androidx.compose.material3:material3-android:1.2.0-alpha10")
